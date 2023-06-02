@@ -86,9 +86,9 @@
       "g" '(:ignore g :which-key "git")
      "gc" 'magit-commit
      "gf" 'magit-pull
-      "gm" 'magit-status
+      "gs" 'magit-status
       "gp" 'magit-push
-      "gs"  'magit-stage-file
+      "ga"  'magit-stage-file
       "gu" 'magit-unstage-file
       ))
 
