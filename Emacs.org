@@ -20,13 +20,29 @@
 #+end_src
 * font
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-    (defvar efs/default-font-size 120)
-  (defvar efs/default-variable-font-size 120)
-  (set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
+      (defvar efs/default-font-size 120)
+    (defvar efs/default-variable-font-size 120)
+    (set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
 
-  ;; Set the fixed pitch face
-  (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
+    ;; Set the fixed pitch face
+    (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
+  (use-package ligature
 
+    :config
+  (ligature-set-ligatures 't '("www"))
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  )
+
+  (global-ligature-mode 't)
 
 #+end_src
 * packages
@@ -257,7 +273,6 @@
 #+end_src
 
 * language modes
-
 ** python
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el 
   (use-package python-mode
