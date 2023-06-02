@@ -90,6 +90,8 @@
       "gp" 'magit-push
       "ga"  'magit-stage-file
       "gu" 'magit-unstage-file
+      "l" '(:ignore l :which-key "lsp")
+      "ll" 'lsp
       ))
 
   (use-package evil
