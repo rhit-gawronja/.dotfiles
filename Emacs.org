@@ -66,56 +66,61 @@
 #+end_src
 * evil and general
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-  (use-package general
-  :after evil
-  :config
-  (general-create-definer efs/leader-keys
-    :keymaps '(normal insert visual emacs)
-    :prefix "SPC"
-    :global-prefix "C-SPC")
+    (use-package general
+    :after evil
+    :config
+    (general-create-definer efs/leader-keys
+      :keymaps '(normal insert visual emacs)
+      :prefix "SPC"
+      :global-prefix "C-SPC")
 
-  (efs/leader-keys
-    "f" '(:ignore f :which-key "file")
-    "ff" 'find-file
-    "b" '(:ignore b :which-key "buffer")
-    "bb" 'switch-to-buffer
-    "bk" 'kill-buffer
-    "t"  '(:ignore t :which-key "toggles")
-    "th" '(counsel-load-theme :which-key "choose theme")
-    "tm" 'treemacs
-    "fde" '(lambda () (interactive) (find-file (expand-file-name "~/.emacs.d/Emacs.org")))))
+    (efs/leader-keys
+      "f" '(:ignore f :which-key "file")
+      "ff" 'find-file
+      "b" '(:ignore b :which-key "buffer")
+      "bb" 'switch-to-buffer
+      "bk" 'kill-buffer
+      "t"  '(:ignore t :which-key "toggles")
+      "th" '(counsel-load-theme :which-key "choose theme")
+      "tm" 'treemacs
+      "g" '(:ignore g :which-key "git")
+      "gc" 'magit-commit
+      "gm" 'magit-status
+      "gs"  'magit-stage-file
+      "gu" 'magit-unstage-file
+      ))
 
-(use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  :config
-  (evil-mode 1)
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+  (use-package evil
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump nil)
+    :config
+    (evil-mode 1)
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
 
-  ;; Use visual line motions even outside of visual-line-mode buffers
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+    ;; Use visual line motions even outside of visual-line-mode buffers
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal))
 
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
 
 #+end_src
 * Themeing
+changed to nerd icons
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package doom-themes
   :init (load-theme 'doom-xcode t))
 
-(use-package all-the-icons)
-
+(use-package nerd-icons)
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
