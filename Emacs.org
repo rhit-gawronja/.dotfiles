@@ -150,117 +150,121 @@ changed to nerd icons
 * Completions
 
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-  (use-package ivy
-  :diminish
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
+      (use-package ivy
+      :diminish
+      :bind (("C-s" . swiper)
+             :map ivy-minibuffer-map
+             ("TAB" . ivy-alt-done)
+             ("C-l" . ivy-alt-done)
+             ("C-j" . ivy-next-line)
+             ("C-k" . ivy-previous-line)
+             :map ivy-switch-buffer-map
+             ("C-k" . ivy-previous-line)
+             ("C-l" . ivy-done)
+             ("C-d" . ivy-switch-buffer-kill)
+             :map ivy-reverse-i-search-map
+             ("C-k" . ivy-previous-line)
+             ("C-d" . ivy-reverse-i-search-kill))
+      :config
+      (ivy-mode 1))
 
-(use-package ivy-rich
-  :after ivy
-  :init
-  (ivy-rich-mode 1))
+    (use-package ivy-rich
+      :after ivy
+      :init
+      (ivy-rich-mode 1))
 
-(use-package counsel
-  :bind (("C-M-j" . 'counsel-switch-buffer)
-         :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history))
-  :custom
-  (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
-  :config
-  (counsel-mode 1))
+    (use-package counsel
+      :bind (("C-M-j" . 'counsel-switch-buffer)
+             :map minibuffer-local-map
+             ("C-r" . 'counsel-minibuffer-history))
+      :custom
+      (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+      :config
+      (counsel-mode 1))
 
-(use-package ivy-prescient
-  :after counsel
-  :custom
-  (ivy-prescient-enable-filtering nil)
-  :config
-  ;; Uncomment the following line to have sorting remembered across sessions!
-  ;(prescient-persist-mode 1)
-  (ivy-prescient-mode 1))
+    (use-package ivy-prescient
+      :after counsel
+      :custom
+      (ivy-prescient-enable-filtering nil)
+      :config
+      ;; Uncomment the following line to have sorting remembered across sessions!
+      ;(prescient-persist-mode 1)
+      (ivy-prescient-mode 1))
 
-(use-package helpful
-  :commands (helpful-callable helpful-variable helpful-command helpful-key)
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
+    (use-package helpful
+      :commands (helpful-callable helpful-variable helpful-command helpful-key)
+      :custom
+      (counsel-describe-function-function #'helpful-callable)
+      (counsel-describe-variable-function #'helpful-variable)
+      :bind
+      ([remap describe-function] . counsel-describe-function)
+      ([remap describe-command] . helpful-command)
+      ([remap describe-variable] . counsel-describe-variable)
+      ([remap describe-key] . helpful-key))
 
-(use-package hydra
-  :defer t)
+    (use-package hydra
+      :defer t)
 
-(defhydra hydra-text-scale (:timeout 4)
-  "scale text"
-  ("j" text-scale-increase "in")
-  ("k" text-scale-decrease "out")
-  ("f" nil "finished" :exit t))
+    (defhydra hydra-text-scale (:timeout 4)
+      "scale text"
+      ("j" text-scale-increase "in")
+      ("k" text-scale-decrease "out")
+      ("f" nil "finished" :exit t))
 
-(efs/leader-keys
-  "ts" '(hydra-text-scale/body :which-key "scale text"))
+    (efs/leader-keys
+      "ts" '(hydra-text-scale/body :which-key "scale text"))
 
+    (use-package flycheck
+      :ensure t
+      :init (global-flycheck-mode))
+    ;; company-mode 
+    (global-company-mode)
 
+    (use-package lsp-mode
+      :commands lsp
+      :hook ((rjsx-mode c-mode).lsp-deferred)
+      :init
+      (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+      :config
+      (lsp-enable-which-key-integration t))
 
-(use-package lsp-mode
-  :commands lsp
-  :hook (lsp-mode . efs/lsp-mode-setup)
-  :init
-  (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
-  :config
-  (lsp-enable-which-key-integration t))
+    (use-package lsp-ui
+      :hook (lsp-mode . lsp-ui-mode)
+      :custom
+      (lsp-ui-doc-position 'bottom))
 
-(use-package lsp-ui
-  :hook (lsp-mode . lsp-ui-mode)
-  :custom
-  (lsp-ui-doc-position 'bottom))
+    (use-package lsp-treemacs
+      :after lsp)
 
-(use-package lsp-treemacs
-  :after lsp)
+    (use-package lsp-ivy
+      :after lsp)
 
-(use-package lsp-ivy
-  :after lsp)
+    (use-package dap-mode
+        :commands dap-debug
+      :config
+      ;; Set up Node debugging
+      (require 'dap-node)
+      (dap-node-setup) ;; Automatically installs Node debug adapter if needed
 
-(use-package dap-mode
-    :commands dap-debug
-  :config
-  ;; Set up Node debugging
-  (require 'dap-node)
-  (dap-node-setup) ;; Automatically installs Node debug adapter if needed
+      ;; Bind `C-c l d` to `dap-hydra` for easy access
+      (general-define-key
+        :keymaps 'lsp-mode-map
+        :prefix lsp-keymap-prefix
+        "d" '(dap-hydra t :wk "debugger")))
 
-  ;; Bind `C-c l d` to `dap-hydra` for easy access
-  (general-define-key
-    :keymaps 'lsp-mode-map
-    :prefix lsp-keymap-prefix
-    "d" '(dap-hydra t :wk "debugger")))
+    (use-package company
+      :after lsp-mode
+      :hook (lsp-mode . company-mode)
+      :bind (:map company-active-map
+             ("<tab>" . company-complete-selection))
+            (:map lsp-mode-map
+             ("<tab>" . company-indent-or-complete-common))
+      :custom
+      (company-minimum-prefix-length 1)
+      (company-idle-delay 0.0))
 
-(use-package company
-  :after lsp-mode
-  :hook (lsp-mode . company-mode)
-  :bind (:map company-active-map
-         ("<tab>" . company-complete-selection))
-        (:map lsp-mode-map
-         ("<tab>" . company-indent-or-complete-common))
-  :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0))
-
-(use-package company-box
-  :hook (company-mode . company-box-mode))
+    (use-package company-box
+      :hook (company-mode . company-box-mode))
 
 
 #+end_src
@@ -311,6 +315,36 @@ changed to nerd icons
 
  
 #+end_src
+
+** general programing
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+  (electric-pair-mode 1)
+#+end_src
+
+**  javaScript
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+        (use-package rjsx-mode
+          :ensure t
+          :mode "\\.js\\'"
+          )
+        (defun setup-tide-mode
+            (interactive)
+          (tide-setup)
+          (flycheck-mode +1)
+          (setq flycheck-mode-check-syntax-automatically '(save-mode-enabled))
+          (tide-hl-identifier-mode +1)
+          (company-mode+1))
+        (use-package tide
+          :ensure t
+          :after (rjsx-mode company flycheck)
+          :hook (rjsx-mode .setup-tide-mode))
+        (use-package prettier-js
+          :ensure t
+          :after (rjsx-mode)
+          :hook (rjsx-mode . prettier-js-mode))
+
+#+end_src
+
 
 * projectile stuff
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
