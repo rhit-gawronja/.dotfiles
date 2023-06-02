@@ -85,7 +85,9 @@
       "tm" 'treemacs
       "g" '(:ignore g :which-key "git")
      "gc" 'magit-commit
+     "gf" 'magit-pull
       "gm" 'magit-status
+      "gp" 'magit-push
       "gs"  'magit-stage-file
       "gu" 'magit-unstage-file
       ))
