@@ -26,7 +26,7 @@
 
     ;; Set the fixed pitch face
     (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
-  (use-package ligature
+  (when(string= "gnu/linux" system-type)(use-package ligature
 
     :config
   (ligature-set-ligatures 't '("www"))
@@ -42,7 +42,7 @@
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   )
 
-  (global-ligature-mode 't)
+  (global-ligature-mode 't))
 
 #+end_src
 * packages
@@ -147,124 +147,125 @@ changed to nerd icons
 
 #+end_src
 
-* Completions
+* Lsp and completions
 
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-      (use-package ivy
-      :diminish
-      :bind (("C-s" . swiper)
-             :map ivy-minibuffer-map
-             ("TAB" . ivy-alt-done)
-             ("C-l" . ivy-alt-done)
-             ("C-j" . ivy-next-line)
-             ("C-k" . ivy-previous-line)
-             :map ivy-switch-buffer-map
-             ("C-k" . ivy-previous-line)
-             ("C-l" . ivy-done)
-             ("C-d" . ivy-switch-buffer-kill)
-             :map ivy-reverse-i-search-map
-             ("C-k" . ivy-previous-line)
-             ("C-d" . ivy-reverse-i-search-kill))
-      :config
-      (ivy-mode 1))
+    (use-package ivy
+    :diminish
+    :bind (("C-s" . swiper)
+	   :map ivy-minibuffer-map
+	   ("TAB" . ivy-alt-done)
+	   ("C-l" . ivy-alt-done)
+	   ("C-j" . ivy-next-line)
+	   ("C-k" . ivy-previous-line)
+	   :map ivy-switch-buffer-map
+	   ("C-k" . ivy-previous-line)
+	   ("C-l" . ivy-done)
+	   ("C-d" . ivy-switch-buffer-kill)
+	   :map ivy-reverse-i-search-map
+	   ("C-k" . ivy-previous-line)
+	   ("C-d" . ivy-reverse-i-search-kill))
+    :config
+    (ivy-mode 1))
 
-    (use-package ivy-rich
-      :after ivy
-      :init
-      (ivy-rich-mode 1))
+  (use-package ivy-rich
+    :after ivy
+    :init
+    (ivy-rich-mode 1))
 
-    (use-package counsel
-      :bind (("C-M-j" . 'counsel-switch-buffer)
-             :map minibuffer-local-map
-             ("C-r" . 'counsel-minibuffer-history))
-      :custom
-      (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
-      :config
-      (counsel-mode 1))
+  (use-package counsel
+    :bind (("C-M-j" . 'counsel-switch-buffer)
+	   :map minibuffer-local-map
+	   ("C-r" . 'counsel-minibuffer-history))
+    :custom
+    (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+    :config
+    (counsel-mode 1))
 
-    (use-package ivy-prescient
-      :after counsel
-      :custom
-      (ivy-prescient-enable-filtering nil)
-      :config
-      ;; Uncomment the following line to have sorting remembered across sessions!
-      ;(prescient-persist-mode 1)
-      (ivy-prescient-mode 1))
+  (use-package ivy-prescient
+    :after counsel
+    :custom
+    (ivy-prescient-enable-filtering nil)
+    :config
+    ;; Uncomment the following line to have sorting remembered across sessions!
+    ;(prescient-persist-mode 1)
+    (ivy-prescient-mode 1))
 
-    (use-package helpful
-      :commands (helpful-callable helpful-variable helpful-command helpful-key)
-      :custom
-      (counsel-describe-function-function #'helpful-callable)
-      (counsel-describe-variable-function #'helpful-variable)
-      :bind
-      ([remap describe-function] . counsel-describe-function)
-      ([remap describe-command] . helpful-command)
-      ([remap describe-variable] . counsel-describe-variable)
-      ([remap describe-key] . helpful-key))
+  (use-package helpful
+    :commands (helpful-callable helpful-variable helpful-command helpful-key)
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
 
-    (use-package hydra
-      :defer t)
+  (use-package hydra
+    :defer t)
 
-    (defhydra hydra-text-scale (:timeout 4)
-      "scale text"
-      ("j" text-scale-increase "in")
-      ("k" text-scale-decrease "out")
-      ("f" nil "finished" :exit t))
+  (defhydra hydra-text-scale (:timeout 4)
+    "scale text"
+    ("j" text-scale-increase "in")
+    ("k" text-scale-decrease "out")
+    ("f" nil "finished" :exit t))
 
-    (efs/leader-keys
-      "ts" '(hydra-text-scale/body :which-key "scale text"))
+  (efs/leader-keys
+    "ts" '(hydra-text-scale/body :which-key "scale text"))
 
-    (use-package flycheck
-      :ensure t
-      :init (global-flycheck-mode))
-    ;; company-mode 
-    (global-company-mode)
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode))
+  ;; company-mode 
+  (global-company-mode)
 
-    (use-package lsp-mode
-      :commands lsp
-      :hook ((rjsx-mode c-mode).lsp-deferred)
-      :init
-      (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
-      :config
-      (lsp-enable-which-key-integration t))
+  (use-package lsp-mode
+    :commands lsp
+    :ensure t
+    :hook ((rjsx-mode c-mode).lsp-deferred)
+    :init
+    (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+    :config
+    (lsp-enable-which-key-integration t))
 
-    (use-package lsp-ui
-      :hook (lsp-mode . lsp-ui-mode)
-      :custom
-      (lsp-ui-doc-position 'bottom))
+  (use-package lsp-ui
+    :hook (lsp-mode . lsp-ui-mode)
+    :custom
+    (lsp-ui-doc-position 'bottom))
 
-    (use-package lsp-treemacs
-      :after lsp)
+  (use-package lsp-treemacs
+    :after lsp)
 
-    (use-package lsp-ivy
-      :after lsp)
+  (use-package lsp-ivy
+    :after lsp)
 
-    (use-package dap-mode
-        :commands dap-debug
-      :config
-      ;; Set up Node debugging
-      (require 'dap-node)
-      (dap-node-setup) ;; Automatically installs Node debug adapter if needed
+  (use-package dap-mode
+      :commands dap-debug
+    :config
+    ;; Set up Node debugging
+    (require 'dap-node)
+    (dap-node-setup) ;; Automatically installs Node debug adapter if needed
 
-      ;; Bind `C-c l d` to `dap-hydra` for easy access
-      (general-define-key
-        :keymaps 'lsp-mode-map
-        :prefix lsp-keymap-prefix
-        "d" '(dap-hydra t :wk "debugger")))
+    ;; Bind `C-c l d` to `dap-hydra` for easy access
+    (general-define-key
+      :keymaps 'lsp-mode-map
+      :prefix lsp-keymap-prefix
+      "d" '(dap-hydra t :wk "debugger")))
 
-    (use-package company
-      :after lsp-mode
-      :hook (lsp-mode . company-mode)
-      :bind (:map company-active-map
-             ("<tab>" . company-complete-selection))
-            (:map lsp-mode-map
-             ("<tab>" . company-indent-or-complete-common))
-      :custom
-      (company-minimum-prefix-length 1)
-      (company-idle-delay 0.0))
+  (use-package company
+    :after lsp-mode
+    :hook (lsp-mode . company-mode)
+    :bind (:map company-active-map
+	   ("<tab>" . company-complete-selection))
+	  (:map lsp-mode-map
+	   ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0))
 
-    (use-package company-box
-      :hook (company-mode . company-box-mode))
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
 
 
 #+end_src
@@ -345,7 +346,6 @@ changed to nerd icons
 
 #+end_src
 
-
 * projectile stuff
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package projectile
@@ -407,61 +407,14 @@ changed to nerd icons
                   (org-level-2 . 1.1)
                   (org-level-3 . 1.05)
                   (org-level-4 . 1.0)
-                  (org-level-5 . 1.1)
-                  (org-level-6 . 1.1)
-                  (org-level-7 . 1.1)
-                  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Fira Code" :weight 'regular :height (cdr face)))
-
-  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
-
-(defun efs/org-mode-setup ()
-  (org-indent-mode)
-  (variable-pitch-mode 1)
-  (visual-line-mode 1))
-(use-package org
-  :hook (org-mode . efs/org-mode-setup)
-  :config
-  (setq org-ellipsis " ▾"))
-
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-(defun efs/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-(use-package visual-fill-column
-  :hook (org-mode . efs/org-mode-visual-fill))
-
-(org-babel-do-load-languages
-  'org-babel-load-languages
-  '((emacs-lisp . t)
-    (python . t)))
-
-(push '("conf-unix" . conf-unix) org-src-lang-modes)
-
-;; Automatically tangle our Emacs.org config file when we save it
-(defun efs/org-babel-tangle-config ()
-  (when (string-equal (buffer-file-name)
-                      (expand-file-name "~/dotfiles/Emacs.org"))
-    ;; Dynamic scoping to the rescue
-    (let ((org-confirm-babel-evaluate nil))
-      (org-babel-tangle))))
-
-(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
-
-
+         )))
 #+end_src
 
+* mac os
+#+begin_src  emacs-lisp :tangle ../.emacs.d/init.el
+
+(when(string= "darwin" system-type) 
+(add-to-list 'image-types 'svg))
+ 
+#+end_src
 
