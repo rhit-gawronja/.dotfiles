@@ -1,5 +1,10 @@
 #+title: My emacs config
 #+PROPERTY: header-args:emacs-lisp :tangle ~./.emacs.d/init.el
+* System settings
+
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+  (setq make-backup-files nil)
+#+end_src
 * basic ui
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
     (setq inhibit-startup-message t)
@@ -26,7 +31,7 @@
 
     ;; Set the fixed pitch face
     (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
-  (when(string= "gnu/linux" system-type)(use-package ligature
+  (use-package ligature
 
     :config
   (ligature-set-ligatures 't '("www"))
@@ -41,10 +46,10 @@
                                        "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   )
-
+(when(string= "gnu/linux" system-type)
   (global-ligature-mode 't))
 
-#+end_src
+#+end_src 
 * packages
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (require 'package)
@@ -84,7 +89,7 @@
       "th" '(counsel-load-theme :which-key "choose theme")
       "tm" 'treemacs
       "g" '(:ignore g :which-key "git")
-     "gc" 'magit-commit
+      "gc" 'magit-commit
      "gf" 'magit-pull
       "gs" 'magit-status
       "gp" 'magit-push
@@ -92,6 +97,7 @@
       "gu" 'magit-unstage-file
       "l" '(:ignore l :which-key "lsp")
       "ll" 'lsp
+      "la" 'lsp-execute-code-action
       ))
 
   (use-package evil
@@ -225,7 +231,7 @@ changed to nerd icons
   (use-package lsp-mode
     :commands lsp
     :ensure t
-    :hook ((rjsx-mode c-mode).lsp-deferred)
+    :hook ((rjsx-mode c-mode racekt-mode).lsp-deferred)
     :init
     (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
     :config
@@ -324,6 +330,15 @@ changed to nerd icons
   (electric-pair-mode 1)
 #+end_src
 
+** Racket
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+  (use-package racket-mode
+    :ensure t
+    
+    ) 
+#+end_src
+
+
 **  javaScript
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
         (use-package rjsx-mode
@@ -409,7 +424,7 @@ changed to nerd icons
                   (org-level-2 . 1.1)
                   (org-level-3 . 1.05)
                   (org-level-4 . 1.0)
-         )))
+         ))))
 #+end_src
 
 * mac os
