@@ -1,7 +1,14 @@
 #+title: My emacs config
-#+PROPERTY: header-args:emacs-lisp :tangle ~./.emacs.d/init.el
-* System settings
 
+* System settings
+** mac os
+#+begin_src  emacs-lisp :tangle ../.emacs.d/init.el
+
+(when(string= "darwin" system-type) 
+(add-to-list 'image-types 'svg))
+ 
+#+end_src
+** genral settings
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (setq make-backup-files nil)
 #+end_src
@@ -141,7 +148,7 @@
 changed to nerd icons
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
     (use-package doom-themes
-    :init (load-theme 'doom-xcode t))
+    :init (load-theme 'doom-gruvbox t))
 
   (use-package nerd-icons
     )
@@ -170,49 +177,77 @@ changed to nerd icons
 #+end_src
 
 * Lsp and completions
+** vertico
 
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-    (use-package ivy
-    :diminish
-    :bind (("C-s" . swiper)
-	   :map ivy-minibuffer-map
-	   ("TAB" . ivy-alt-done)
-	   ("C-l" . ivy-alt-done)
-	   ("C-j" . ivy-next-line)
-	   ("C-k" . ivy-previous-line)
-	   :map ivy-switch-buffer-map
-	   ("C-k" . ivy-previous-line)
-	   ("C-l" . ivy-done)
-	   ("C-d" . ivy-switch-buffer-kill)
-	   :map ivy-reverse-i-search-map
-	   ("C-k" . ivy-previous-line)
-	   ("C-d" . ivy-reverse-i-search-kill))
-    :config
-    (ivy-mode 1))
+    (use-package vertico
 
-  (use-package ivy-rich
-    :after ivy
     :init
-    (ivy-rich-mode 1))
+    (vertico-mode)
 
-  (use-package counsel
-    :bind (("C-M-j" . 'counsel-switch-buffer)
-	   :map minibuffer-local-map
-	   ("C-r" . 'counsel-minibuffer-history))
-    :custom
-    (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
-    :config
-    (counsel-mode 1))
+    ;; Different scroll margin
+     (setq vertico-scroll-margin 0)
 
-  (use-package ivy-prescient
-    :after counsel
-    :custom
-    (ivy-prescient-enable-filtering nil)
-    :config
-    ;; Uncomment the following line to have sorting remembered across sessions!
-    ;(prescient-persist-mode 1)
-    (ivy-prescient-mode 1))
+    ;; Show more candidates
+    ;; (setq vertico-count 20)
 
+    ;; Grow and shrink the Vertico minibuffer
+    ;; (setq vertico-resize t)
+
+    ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+    (setq vertico-cycle t)
+    )
+  (use-package savehist
+    :init
+    (savehist-mode))
+  (setq enable-recursive-minibuffers t)
+  (use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be actived in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+  #+end_src
+** corfu
+  
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+  (use-package corfu
+    ;; Optional customizations
+     :custom
+     (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+     (corfu-auto t)                 ;; Enable auto completion
+    ;; (corfu-separator ?\s)          ;; Orderless field separator
+    ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+    ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+    ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+    ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+    ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+    ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+    ;; Enable Corfu only for certain modes.
+     :hook ((prog-mode . corfu-mode)
+	    (shell-mode . corfu-mode)
+	    (eshell-mode . corfu-mode))
+
+    ;; Recommended: Enable Corfu globally.
+    ;; This is recommended since Dabbrev can be used globally (M-/).
+    ;; See also `corfu-exclude-modes'.
+    :init
+    (global-corfu-mode))
+    (use-package flycheck
+      :init (global-flycheck-mode))
+#+end_src
+
+** helpful
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package helpful
     :commands (helpful-callable helpful-variable helpful-command helpful-key)
     :custom
@@ -236,11 +271,11 @@ changed to nerd icons
   (efs/leader-keys
     "ts" '(hydra-text-scale/body :which-key "scale text"))
 
-  (use-package flycheck
-    :init (global-flycheck-mode))
   ;; company-mode 
   ;;(global-company-mode)
-
+#+end_src
+** lsp
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package lsp-mode
     :commands lsp
     :hook ((rjsx-mode c-mode racekt-mode).lsp-deferred)
@@ -257,8 +292,8 @@ changed to nerd icons
   (use-package lsp-treemacs
     :after lsp)
 
-  (use-package lsp-ivy
-    :after lsp)
+  ;; (use-package lsp-ivy
+  ;;   :after lsp)
 
   ;; (use-package dap-mode
   ;;     :commands dap-debug
@@ -272,28 +307,14 @@ changed to nerd icons
   ;;     :keymaps 'lsp-mode-map
   ;;     :prefix lsp-keymap-prefix
   ;;     "d" '(dap-hydra t :wk "debugger")))
-
-  (use-package company
-    :after lsp-mode
-    :hook (lsp-mode . company-mode)
-    :bind (:map company-active-map
-	   ("<tab>" . company-complete-selection))
-	  (:map lsp-mode-map
-	   ("<tab>" . company-indent-or-complete-common))
-    :custom
-    (company-minimum-prefix-length 1)
-    (company-idle-delay 0.0))
-
-  (use-package company-box
-    :hook (company-mode . company-box-mode))
-
-
 #+end_src
+** company
+c
 
 * snippets
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package yasnippet
-  :after ivy 
+  :after vertico 
   :init
   (setq yas-snippet-dir "~/.emacs.d/snippets"))
 (use-package yasnippet-snippets
@@ -349,24 +370,22 @@ changed to nerd icons
 
 **  javaScript
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-        (use-package rjsx-mode
-          :mode "\\.js\\'"
-          )
-        (defun setup-tide-mode
-            (interactive)
-          (tide-setup)
-          (flycheck-mode +1)
-          (setq flycheck-mode-check-syntax-automatically '(save-mode-enabled))
-          (tide-hl-identifier-mode +1)
-          (company-mode+1))
-        (use-package tide
-          :after (rjsx-mode company flycheck)
-          :hook (rjsx-mode .setup-tide-mode))
-        (use-package prettier-js
-          :after (rjsx-mode)
-          :hook (rjsx-mode . prettier-js-mode))
-
-#+end_src
+  (use-package rjsx-mode
+    :mode "\\.js\\'"
+    )
+  (defun setup-tide-mode
+      (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-mode-check-syntax-automatically '(save-mode-enabled))
+    (tide-hl-identifier-mode +1)
+    )
+  (use-package tide
+    :after (rjsx-mode flycheck)
+    :hook (rjsx-mode .setup-tide-mode))
+  (use-package prettier)
+  (add-hook 'after-init-hook #'global-prettier-mode)
+        #+end_src
 
 * projectile stuff
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
@@ -435,13 +454,5 @@ changed to nerd icons
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-#+end_src
-
-* mac os
-#+begin_src  emacs-lisp :tangle ../.emacs.d/init.el
-
-(when(string= "darwin" system-type) 
-(add-to-list 'image-types 'svg))
- 
 #+end_src
 
