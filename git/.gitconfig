@@ -4,3 +4,6 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/home/joeygawron/.nix-profile/bin/gh auth git-credential
+[user]
+	name = Joey Gawron
+	email = gawronja@rose-hulman.edu
