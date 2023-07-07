@@ -30,8 +30,12 @@ local plugins={
     -- speed buffs
     {
 	    'ThePrimeagen/harpoon',
-		dependencies = { {'nvim-lua/plenary.nvim'} }
-	},
+		dependencies = { {'nvim-lua/plenary.nvim'} }},{
+	  'nvim-telescope/telescope.nvim',
+	  -- or                            , branch = '0.1.x',
+	  dependencies = { {'nvim-lua/plenary.nvim'} }
+  }
+	,
 	-- treesitter
 	'nvim-treesitter/nvim-treesitter',
 	--tpope
@@ -58,7 +62,12 @@ local plugins={
 		  {'L3MON4D3/LuaSnip'},
 		  {'rafamadriz/friendly-snippets'},
 	  }
-  }
+  },
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {} -- this is equalent to setup({}) function
+}
 ,
 -- web development
 'jose-elias-alvarez/null-ls.nvim',
