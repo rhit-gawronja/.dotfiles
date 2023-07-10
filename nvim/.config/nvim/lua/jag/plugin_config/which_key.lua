@@ -13,6 +13,7 @@ c={name='code',},
         name='search',
 f={builtin.find_files,"telescope search"},
 g={builtin.git_files,"git search"},
+s={builtin.live_grep,"grep"},
 
     }
 },{prefix="<leader>"})
