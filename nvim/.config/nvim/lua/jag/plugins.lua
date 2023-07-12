@@ -14,6 +14,7 @@ local plugins={
     --looks and feel
     'ellisonleao/gruvbox.nvim',
     'nvim-tree/nvim-web-devicons',
+    'junegunn/rainbow_parentheses.vim',
     'nvim-lualine/lualine.nvim',{
         "folke/which-key.nvim",
         event = "VeryLazy",
@@ -35,7 +36,7 @@ local plugins={
             -- or                            , branch = '0.1.x',
             dependencies = { {'nvim-lua/plenary.nvim'} }
         }
-        ,
+        ,{'mbbill/undotree',lazy=false},
         -- treesitter
         'nvim-treesitter/nvim-treesitter',
         --tpope
