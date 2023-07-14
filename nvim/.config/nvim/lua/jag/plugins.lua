@@ -9,12 +9,13 @@ if not vim.loop.fs_stat(lazypath) then
         lazypath,
     })
 end
+
 vim.opt.rtp:prepend(lazypath)
 local plugins={
     --looks and feel
     'ellisonleao/gruvbox.nvim',
     'nvim-tree/nvim-web-devicons',
-    'junegunn/rainbow_parentheses.vim',
+    'hiphish/rainbow-delimiters.nvim',
     'nvim-lualine/lualine.nvim',{
         "folke/which-key.nvim",
         event = "VeryLazy",
