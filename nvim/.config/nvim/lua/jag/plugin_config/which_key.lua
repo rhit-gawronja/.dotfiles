@@ -4,6 +4,12 @@ wk.register({
     a={
         name='harpoon',
     },
+    b={
+        name='buffer',
+        l={"<cmd>ls<cr>","list buffers"},
+        n={"<cmd>bn<cr>","next buffer"},
+        p={"<cmd>bp<cr>","previous buffer"},
+    },
     u={name='undo',
     t={vim.cmd.UndotreeToggle,"toggle undo tree"},
     s={vim.cmd.UndotreeShow,"Show undotree"}

@@ -16,6 +16,16 @@ local plugins={
     'ellisonleao/gruvbox.nvim',
     'nvim-tree/nvim-web-devicons',
     'hiphish/rainbow-delimiters.nvim',
+    {
+    'nvimdev/lspsaga.nvim',
+    config = function()
+        require('lspsaga').setup({})
+    end,
+    dependencies = {
+        'nvim-treesitter/nvim-treesitter', -- optional
+        'nvim-tree/nvim-web-devicons'     -- optional
+    }
+},
     'nvim-lualine/lualine.nvim',{
         "folke/which-key.nvim",
         event = "VeryLazy",
