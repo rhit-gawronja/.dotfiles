@@ -14,7 +14,8 @@ wk.register({
     t={vim.cmd.UndotreeToggle,"toggle undo tree"},
     s={vim.cmd.UndotreeShow,"Show undotree"}
 },
-    c={name='code',},
+    c={name='code',
+    },
     f={
         name='file',
         f={vim.cmd.Ex,"find file"},
