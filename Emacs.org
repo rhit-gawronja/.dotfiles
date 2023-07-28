@@ -353,11 +353,23 @@ changed to nerd icons
 ** Racket
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package racket-mode
-    
+    :mode "\\.rkt\\'"
+
     ) 
 #+end_src
+** pdf 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+  (use-package pdf-tools
+    :mode "\\.pdf\\'"
 
-
+    ) 
+#+end_src
+** Latex 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+    (use-package acutex
+      :straight t
+      ) 
+#+end_src
 **  javaScript
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
         (use-package rjsx-mode
@@ -413,7 +425,6 @@ changed to nerd icons
     (use-package forge
       :after magit)
 
-    (use-package pdf-tools)
 
 #+end_src
 
