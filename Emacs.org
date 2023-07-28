@@ -159,20 +159,23 @@ changed to nerd icons
 #+end_src
 * misc packages
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-    (use-package command-log-mode
-    :commands command-log-mode)
-  (use-package which-key
-    :defer 0
-    :diminish which-key-mode
-    :config
-    (which-key-mode)
-    (setq which-key-idle-delay 1))
+	(use-package command-log-mode
+	:commands command-log-mode)
+      (use-package which-key
+	:defer 0
+	:diminish which-key-mode
+	:config
+	(which-key-mode)
+	(setq which-key-idle-delay 1))
 
-  (use-package evil-nerd-commenter
-    :bind ("M-/" . evilnc-comment-or-uncomment-lines))
+      (use-package evil-nerd-commenter
+	:bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
-  (use-package rainbow-delimiters
-    :hook (prog-mode . rainbow-delimiters-mode))
+      (use-package rainbow-delimiters
+	:hook (prog-mode . rainbow-delimiters-mode))
+      (use-package undo-tree
+	:init
+	(global-undo-tree-mode))
 
 #+end_src
 
@@ -366,9 +369,10 @@ changed to nerd icons
 #+end_src
 ** Latex 
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-    (use-package acutex
-      :straight t
-      ) 
+  (use-package auctex
+    :straight t
+    :mode "\\.tex\\'"
+    ) 
 #+end_src
 **  javaScript
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
