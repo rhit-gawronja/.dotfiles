@@ -108,9 +108,16 @@
 	"gp" 'magit-push
 	"ga"  'magit-stage-file
 	"gu" 'magit-unstage-file
-	"l" '(:ignore l :which-key "lsp")
-	"ll" 'lsp
-	"la" 'lsp-execute-code-action
+	"c" '(:ignore c :which-key "code")
+	"cl" 'lsp
+	"ca" 'lsp-execute-code-action
+	"cg" '(:ignore cg :which-key "goto")
+	"cgi" 'lsp-goto-implementation
+	"cgd" 'lsp-goto-type-definition
+	"cf" '(:ignore cf :which-key "find")
+	"cfr" 'lsp-find-refrences
+	"cfd" 'lsp-find-definition
+	"cfi" 'lsp-find-implementation
 	))
 
     (use-package evil
@@ -141,7 +148,7 @@
 changed to nerd icons
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
     (use-package doom-themes
-    :init (load-theme 'doom-xcode t))
+    :init (load-theme 'doom-material-dark t))
 
   (use-package nerd-icons
     )
