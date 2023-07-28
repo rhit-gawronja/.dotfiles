@@ -108,9 +108,9 @@
 	"gp" 'magit-push
 	"ga"  'magit-stage-file
 	"gu" 'magit-unstage-file
-	"l" '(:ignore l :which-key "lsp")
-	"ll" 'lsp
-	"la" 'lsp-execute-code-action
+	"c" '(:ignore l :which-key "lsp")
+	"cl" 'lsp
+	"ca" 'lsp-execute-code-action
 	))
 
     (use-package evil
@@ -141,7 +141,7 @@
 changed to nerd icons
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
     (use-package doom-themes
-    :init (load-theme 'doom-xcode t))
+    :init (load-theme 'doom-gruvbox t))
 
   (use-package nerd-icons
     )
@@ -346,11 +346,23 @@ changed to nerd icons
 ** Racket
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package racket-mode
-    
+    :mode "\\.rkt\\'"
+
     ) 
 #+end_src
+** pdf 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+  (use-package pdf-tools
+    :mode "\\.pdf\\'"
 
-
+    ) 
+#+end_src
+** Latex 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+    (use-package acutex
+      :straight t
+      ) 
+#+end_src
 **  javaScript
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
         (use-package rjsx-mode
@@ -406,7 +418,6 @@ changed to nerd icons
     (use-package forge
       :after magit)
 
-    (use-package pdf-tools)
 
 #+end_src
 
