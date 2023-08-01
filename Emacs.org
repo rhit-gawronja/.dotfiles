@@ -78,8 +78,7 @@
                                        "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   )
-(when(string= "gnu/linux" system-type)
-  (global-ligature-mode 't))
+  (global-ligature-mode 't)
 
 #+end_src 
 * evil and general
@@ -126,6 +125,7 @@
       (setq evil-want-keybinding nil)
       (setq evil-want-C-u-scroll t)
       (setq evil-want-C-i-jump nil)
+      (setq evil-undo-system 'undo-tree)
       :config
       (evil-mode 1)
       (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
@@ -142,41 +142,73 @@
       :after evil
       :config
       (evil-collection-init))
+  (use-package undo-tree
+    :straight t
+    :after evil
+    :init
+    (global-undo-tree-mode))
+  (use-package vimish-fold
+    :straight t
+    :after evil)
+  (use-package evil-vimish-fold
+    :after vimish-fold
+    :init 
+  (global-evil-vimish-fold-mode 1)
+    )
 
 #+end_src
 * Themeing
 changed to nerd icons
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
     (use-package doom-themes
-    :init (load-theme 'doom-material-dark t))
+    :init (load-theme 'doom-gruvbox t))
 
   (use-package nerd-icons
     )
   (use-package doom-modeline
     :init (doom-modeline-mode 1)
     :custom ((doom-modeline-height 15)))
+  
 
+#+end_src
+* Dashboard
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el 
+      (use-package dashboard
+      :straight t
+      :config
+      (dashboard-setup-startup-hook))
+  ;; Set the title
+(setq dashboard-banner-logo-title "Welcome to the dungeon")
+    (setq dashboard-items '((recents  . 5)
+			    (bookmarks . 5)
+			    (projects . 5)
+			    (agenda . 5)
+			    (registers . 5)))
+  (setq dashboard-center-content t)
+
+  ;; To disable shortcut "jump" indicators for each section, set
+  (setq dashboard-show-shortcuts nil)
+(setq dashboard-display-icons-p t) ;; display icons on both GUI and terminal
+(setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
 #+end_src
 * misc packages
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-	(use-package command-log-mode
-	:commands command-log-mode)
-      (use-package which-key
-	:defer 0
-	:diminish which-key-mode
-	:config
-	(which-key-mode)
-	(setq which-key-idle-delay 1))
+    (use-package command-log-mode
+    :commands command-log-mode)
+  (use-package which-key
+    :defer 0
+    :diminish which-key-mode
+    :config
+    (which-key-mode)
+    (setq which-key-idle-delay 1))
 
-      (use-package evil-nerd-commenter
-	:bind ("M-/" . evilnc-comment-or-uncomment-lines))
+  (use-package evil-nerd-commenter
+    :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
-      (use-package rainbow-delimiters
-	:hook (prog-mode . rainbow-delimiters-mode))
-      (use-package undo-tree
-	:init
-	(global-undo-tree-mode))
-
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+  
+  
 #+end_src
 
 * Lsp and completions
