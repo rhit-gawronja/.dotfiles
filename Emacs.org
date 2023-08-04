@@ -94,6 +94,9 @@
       (efs/leader-keys
 	"f" '(:ignore f :which-key "file")
 	"ff" 'find-file
+	"a" '(:ignore a :which-key "bookmarks")
+	"aa" 'bookmark-set
+	"am" 'list-bookmarks
 	"b" '(:ignore b :which-key "buffer")
 	"bb" 'switch-to-buffer
 	"bk" 'kill-buffer
@@ -184,7 +187,7 @@ changed to nerd icons
 			    (projects . 5)
 			    (agenda . 5)
 			    (registers . 5)))
-  (setq dashboard-center-content t)
+  ;; (setq dashboard-center-content t)
 
   ;; To disable shortcut "jump" indicators for each section, set
   (setq dashboard-show-shortcuts nil)
