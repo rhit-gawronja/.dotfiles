@@ -1,13 +1,12 @@
-
 #+title: My emacs config
-#+PROPERTY: header-args:emacs-lisp :tangle ./init.el
+#+PROPERTY: header-args:emacs-lisp :tangle ~./.emacs.d/init.el
 * System settings
 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (setq make-backup-files nil)
 #+end_src
 * packages
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
     (defvar bootstrap-version)
     (let ((bootstrap-file
 	   (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -40,7 +39,7 @@
 #+end_src
 
 * basic ui
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
     (setq inhibit-startup-message t)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
@@ -58,7 +57,7 @@
 
 #+end_src
 * font
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
       (defvar efs/default-font-size 120)
     (defvar efs/default-variable-font-size 120)
     (set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
@@ -83,7 +82,7 @@
 
 #+end_src 
 * evil and general
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
       (use-package general
       :after evil
       :config
@@ -163,7 +162,7 @@
 #+end_src
 * Themeing
 changed to nerd icons
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
     (use-package doom-themes
     :init (load-theme 'doom-gruvbox t))
 
@@ -176,7 +175,7 @@ changed to nerd icons
 
 #+end_src
 * Dashboard
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el 
       (use-package dashboard
       :straight t
       :config
@@ -196,7 +195,7 @@ changed to nerd icons
 (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
 #+end_src
 * misc packages
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
     (use-package command-log-mode
     :commands command-log-mode)
   (use-package which-key
@@ -217,7 +216,8 @@ changed to nerd icons
 
 * Lsp and completions
 
-#+begin_src emacs-lisp  (use-package ivy
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+    (use-package ivy
     :diminish
     :bind (("C-s" . swiper)
 	   :map ivy-minibuffer-map
@@ -255,7 +255,7 @@ changed to nerd icons
     (ivy-prescient-enable-filtering nil)
     :config
     ;; Uncomment the following line to have sorting remembered across sessions!
-					  ;(prescient-persist-mode 1)
+    ;(prescient-persist-mode 1)
     (ivy-prescient-mode 1))
 
   (use-package helpful
@@ -273,13 +273,13 @@ changed to nerd icons
     :defer t)
 
   (defhydra hydra-text-scale (:timeout 4)
-	    "scale text"
-	    ("j" text-scale-increase "in")
-	    ("k" text-scale-decrease "out")
-	    ("f" nil "finished" :exit t))
+    "scale text"
+    ("j" text-scale-increase "in")
+    ("k" text-scale-decrease "out")
+    ("f" nil "finished" :exit t))
 
   (efs/leader-keys
-   "ts" '(hydra-text-scale/body :which-key "scale text"))
+    "ts" '(hydra-text-scale/body :which-key "scale text"))
 
   (use-package flycheck
     :init (global-flycheck-mode))
@@ -322,9 +322,9 @@ changed to nerd icons
     :after lsp-mode
     :hook (lsp-mode . company-mode)
     :bind (:map company-active-map
-		("<tab>" . company-complete-selection))
-    (:map lsp-mode-map
-	  ("<tab>" . company-indent-or-complete-common))
+	   ("<tab>" . company-complete-selection))
+	  (:map lsp-mode-map
+	   ("<tab>" . company-indent-or-complete-common))
     :custom
     (company-minimum-prefix-length 1)
     (company-idle-delay 0.0))
@@ -336,7 +336,7 @@ changed to nerd icons
 #+end_src
 
 * snippets
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package yasnippet
   :after ivy 
   :init
@@ -349,7 +349,7 @@ changed to nerd icons
 
 * language modes
 ** python
-#+begin_src emacs-lisp  
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el 
     (use-package python-mode
     :hook (python-mode . lsp-deferred)
     :custom
@@ -369,7 +369,7 @@ changed to nerd icons
 #+end_src
 
 ** typescript
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package typescript-mode
    :mode "\\.ts\\'"
    :hook (typescript-mode . lsp-deferred)
@@ -380,7 +380,7 @@ changed to nerd icons
 #+end_src
 
 ** general programing
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (electric-pair-mode 1)
   (defun transparency (value)
    "Sets the transparency of the frame window. 0=transparent/100=opaque"
@@ -389,28 +389,28 @@ changed to nerd icons
 #+end_src
 
 ** Racket
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package racket-mode
     :mode "\\.rkt\\'"
 
     ) 
 #+end_src
 ** pdf 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package pdf-tools
     :mode "\\.pdf\\'"
 
     ) 
 #+end_src
 ** Latex 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package auctex
     :straight t
     :mode "\\.tex\\'"
     ) 
 #+end_src
 **  javaScript
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
         (use-package rjsx-mode
           :mode "\\.js\\'"
           )
@@ -431,7 +431,7 @@ changed to nerd icons
 #+end_src
 
 * projectile stuff
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
     (use-package projectile
     :diminish projectile-mode
     :config (projectile-mode)
@@ -452,7 +452,7 @@ changed to nerd icons
 #+end_src
 
 * magit
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
      (use-package magit
       :commands magit-status
       :custom
@@ -468,7 +468,7 @@ changed to nerd icons
 #+end_src
 
 * terminal
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package vterm
   :commands vterm
   :config
@@ -479,7 +479,7 @@ changed to nerd icons
 #+end_src
 
 * org mode
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (defun efs/org-font-setup ()
   ;; Replace list hyphen with dot
   (font-lock-add-keywords 'org-mode
@@ -500,7 +500,7 @@ changed to nerd icons
 #+end_src
 
 * mac os
-#+begin_src  emacs-lisp
+#+begin_src  emacs-lisp :tangle ../.emacs.d/init.el
 
 (when(string= "darwin" system-type) 
 (add-to-list 'image-types 'svg))
