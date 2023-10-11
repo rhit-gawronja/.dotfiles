@@ -28,6 +28,7 @@
 
   (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
+
 (setq inhibit-startup-message t)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
@@ -45,10 +46,10 @@
 
 (defvar efs/default-font-size 120)
   (defvar efs/default-variable-font-size 120)
-  (set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
+  (set-face-attribute 'default nil :font "Fira Code" :height efs/default-font-size)
 
   ;; Set the fixed pitch face
-  (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
+  (set-face-attribute 'fixed-pitch nil :font "Fira Code" :height efs/default-font-size)
 (use-package ligature
   :config
 (ligature-set-ligatures 't '("www"))
@@ -142,13 +143,13 @@
   )
 
 (use-package doom-themes
-  :init (load-theme 'doom-gruvbox t))
-
-(use-package nerd-icons
-  )
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
+    :init (load-theme 'doom-nova t))
+;; (load-theme 'modus-operandi)
+  (use-package nerd-icons
+    )
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1)
+    :custom ((doom-modeline-height 15)))
 
 (use-package dashboard
       :straight t
@@ -182,8 +183,9 @@
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
+
 (use-package ivy
-:diminish
+  :diminish
   :bind (("C-s" . swiper)
 	 :map ivy-minibuffer-map
 	 ("TAB" . ivy-alt-done)
@@ -220,7 +222,7 @@
   (ivy-prescient-enable-filtering nil)
   :config
   ;; Uncomment the following line to have sorting remembered across sessions!
-					;(prescient-persist-mode 1)
+  ;(prescient-persist-mode 1)
   (ivy-prescient-mode 1))
 
 (use-package helpful
@@ -238,13 +240,13 @@
   :defer t)
 
 (defhydra hydra-text-scale (:timeout 4)
-	  "scale text"
-	  ("j" text-scale-increase "in")
-	  ("k" text-scale-decrease "out")
-	  ("f" nil "finished" :exit t))
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "finished" :exit t))
 
 (efs/leader-keys
- "ts" '(hydra-text-scale/body :which-key "scale text"))
+  "ts" '(hydra-text-scale/body :which-key "scale text"))
 
 (use-package flycheck
   :init (global-flycheck-mode))
@@ -253,7 +255,7 @@
 
 (use-package lsp-mode
   :commands lsp
-  :hook ((rjsx-mode c-mode racekt-mode).lsp-deferred)
+  :hook ((rjsx-mode c-mode racekt-mode).lsp-mode)
   :init
   (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
   :config
@@ -287,9 +289,9 @@
   :after lsp-mode
   :hook (lsp-mode . company-mode)
   :bind (:map company-active-map
-	      ("<tab>" . company-complete-selection))
-  (:map lsp-mode-map
-	("<tab>" . company-indent-or-complete-common))
+	 ("<tab>" . company-complete-selection))
+	(:map lsp-mode-map
+	 ("<tab>" . company-indent-or-complete-common))
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0))
@@ -334,6 +336,8 @@
 
 (use-package racket-mode
   :mode "\\.rkt\\'"
+ :hook(racket-mode . lsp-deferred) 
+
 
   )
 
@@ -417,6 +421,3 @@
 
 (when(string= "darwin" system-type) 
 (add-to-list 'image-types 'svg))
-(use-package tree-sitter-langs
-  :straight t
-  :after tree-sitter)
