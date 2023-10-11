@@ -1,7 +1,6 @@
 #+title: My emacs config
 #+PROPERTY: header-args:emacs-lisp :tangle ~./.emacs.d/init.el
 * System settings
-
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (setq make-backup-files nil)
 #+end_src
@@ -60,10 +59,10 @@
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
       (defvar efs/default-font-size 120)
     (defvar efs/default-variable-font-size 120)
-    (set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
+    (set-face-attribute 'default nil :font "Fira Code" :height efs/default-font-size)
 
     ;; Set the fixed pitch face
-    (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
+    (set-face-attribute 'fixed-pitch nil :font "Fira Code" :height efs/default-font-size)
   (use-package ligature
     :config
   (ligature-set-ligatures 't '("www"))
@@ -163,9 +162,9 @@
 * Themeing
 changed to nerd icons
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-    (use-package doom-themes
-    :init (load-theme 'doom-gruvbox t))
-
+     (use-package doom-themes
+    :init (load-theme 'doom-nova t))
+;; (load-theme 'modus-operandi)
   (use-package nerd-icons
     )
   (use-package doom-modeline
@@ -288,7 +287,7 @@ changed to nerd icons
 
   (use-package lsp-mode
     :commands lsp
-    :hook ((rjsx-mode c-mode racekt-mode).lsp-deferred)
+    :hook ((rjsx-mode c-mode racekt-mode).lsp-mode)
     :init
     (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
     :config
@@ -392,6 +391,8 @@ changed to nerd icons
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
   (use-package racket-mode
     :mode "\\.rkt\\'"
+   :hook(racket-mode . lsp-deferred) 
+    
 
     ) 
 #+end_src
@@ -450,7 +451,6 @@ changed to nerd icons
 
 
 #+end_src
-
 * magit
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
      (use-package magit

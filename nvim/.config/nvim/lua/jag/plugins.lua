@@ -13,7 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 local plugins={
     --looks and feel
-    'ellisonleao/gruvbox.nvim',
+    'rebelot/kanagawa.nvim',
     'nvim-tree/nvim-web-devicons',
     'hiphish/rainbow-delimiters.nvim',
         {'nvim-lualine/lualine.nvim',
@@ -75,7 +75,9 @@ lazy=false},{
         -- web development
         'jose-elias-alvarez/null-ls.nvim',
         'MunifTanjim/prettier.nvim',
-    }
+	{'xolox/vim-notes',
+dependencies={{'xolox/vim-misc'}}},
+}      
     local opts = {}
 
     require("lazy").setup(plugins, opts)
