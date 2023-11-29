@@ -1,4 +1,2 @@
- require("jag.plugins")
- require("jag.remap")
- require("jag.set")
- require("jag.plugin_config")
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
