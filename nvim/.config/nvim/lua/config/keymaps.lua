@@ -1,3 +1,3 @@
--- Keymaps are automatically loaded on ious<cr>", { desc = "Previous Tab" })
---
-vim.keymap.set("n", "<leader>ff", "<cmd>Ex<cr>")
+-- Keymaps are automatically loaded on the VeryLazy event
+-- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- Add any additional keymaps here
