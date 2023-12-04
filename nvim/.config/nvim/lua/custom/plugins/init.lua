@@ -2,9 +2,12 @@
 --  I promise not to create any merge conflicts in this directory :)
 
 -- See the kickstart.nvim README for more information
+
 return {
         {'mbbill/undotree',lazy=false},
         {'ThePrimeagen/harpoon',
         dependencies = { {'nvim-lua/plenary.nvim'} }},
-        {'donRaphaco/neotex'}
+        {'donRaphaco/neotex'},
+        { 'windwp/nvim-autopairs',
+    event = "InsertEnter",}
 }
