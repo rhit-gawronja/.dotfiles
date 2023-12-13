@@ -12,7 +12,6 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 local harpoon = require("harpoon")
 
 -- REQUIRED
-harpoon.setup()
 -- REQUIRED
 
 vim.keymap.set("n", "<leader>ba", function() harpoon:list():append() end)

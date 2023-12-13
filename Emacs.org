@@ -39,20 +39,23 @@
 
 * basic ui
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-    (setq inhibit-startup-message t)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-  (set-fringe-mode 10)
+      (setq inhibit-startup-message t)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
+    (set-fringe-mode 10)
+    (global-display-line-numbers-mode t)
+    (setq visible-bell nil)
+    ;line numbers
+    (column-number-mode)
   (global-display-line-numbers-mode t)
-  (setq visible-bell nil)
-  ;line numbers
-  (column-number-mode)
-(global-display-line-numbers-mode t)
-(dolist (mode '(org-mode-hook
-                term-mode-hook
-                shell-mode-hook
-                eshell-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+  (dolist (mode '(org-mode-hook
+		  term-mode-hook
+		  shell-mode-hook
+		  eshell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+  (use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+ 
 
 #+end_src
 * font
@@ -162,14 +165,16 @@
 * Themeing
 changed to nerd icons
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-     (use-package doom-themes
-    :init (load-theme 'doom-nova t))
-;; (load-theme 'modus-operandi)
-  (use-package nerd-icons
-    )
-  (use-package doom-modeline
-    :init (doom-modeline-mode 1)
-    :custom ((doom-modeline-height 15)))
+	;;  (use-package doom-themes
+	;; :init (load-theme 'doom-nova t))
+    (use-package modus-themes
+      :init (load-theme 'modus-operandi-tinted t))
+    ;; (load-theme 'modus-operandi)
+      (use-package nerd-icons
+	)
+      (use-package doom-modeline
+	:init (doom-modeline-mode 1)
+	:custom ((doom-modeline-height 15)))
   
 
 #+end_src
@@ -496,6 +501,9 @@ changed to nerd icons
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+  ;; seting org directory
+  (setq org-directory "~/Documents/OrgFiles")
+  (setq org-agenda-files '("Tasks.org" "notes.org"))
 
 #+end_src
 
