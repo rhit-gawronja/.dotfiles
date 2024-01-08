@@ -1,0 +1,22 @@
+
+from defaults import colorscheme
+
+colorschemes = {
+    "default": [      ["#002b36", "#002b36"], # bg
+    ["#839496", "#839496"], # fg
+    ["#073642", "#073642"], # color01
+    ["#dc322f", "#dc322f"], # color02
+    ["#859900", "#859900"], # color03
+    ["#b58900", "#b58900"], # color04
+    ["#268bd2", "#268bd2"], # color05
+    ["#d33682", "#d33682"], # color06
+    ["#2aa198", "#2aa198"]  # color15
+    ]
+
+
+}
+
+def init_colors(colorscheme="default"):
+    return colorschemes[colorscheme]
+
+colors = init_colors(colorscheme)

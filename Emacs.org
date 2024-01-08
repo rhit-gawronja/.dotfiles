@@ -165,17 +165,21 @@
 * Themeing
 changed to nerd icons
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el
-	;;  (use-package doom-themes
-	;; :init (load-theme 'doom-nova t))
+	 (use-package doom-themes
+	;; :init (load-theme 'doom-nova t)
+	)
+    (use-package catppuccin-theme
+      :init (load-theme 'catppuccin t))
     (use-package modus-themes
-      :init (load-theme 'modus-operandi-tinted t))
+      ;; :init (load-theme 'modus-operandi-tinted t)
+      )
     ;; (load-theme 'modus-operandi)
       (use-package nerd-icons
 	)
       (use-package doom-modeline
 	:init (doom-modeline-mode 1)
 	:custom ((doom-modeline-height 15)))
-  
+
 
 #+end_src
 * Dashboard
@@ -354,20 +358,27 @@ changed to nerd icons
 * language modes
 ** python
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el 
-    (use-package python-mode
-    :hook (python-mode . lsp-deferred)
-    :custom
-    ;; NOTE: Set these if Python 3 is called "python3" on your system!
-    (python-shell-interpreter "python3")
-    (dap-python-executable "python3")
-    (dap-python-debugger 'debugpy)
-    :config
-    (require 'dap-python))
+      (use-package python-mode
+      :hook (python-mode . lsp-deferred)
+      :custom
+      ;; NOTE: Set these if Python 3 is called "python3" on your system!
+      (python-shell-interpreter "python3")
+      (dap-python-executable "python3")
+      (dap-python-debugger 'debugpy)
+      :config
+      (require 'dap-python))
 
-  (use-package pyvenv
-    :after python-mode
-    :config
-    (pyvenv-mode 1))
+    (use-package pyvenv
+      :after python-mode
+      :config
+      (pyvenv-mode 1))
+    (use-package lsp-jedi
+      :straight t)
+(use-package lsp-pyright
+    :straight t
+        :hook (python-mode . (lambda () (require 'lsp-pyright)))
+    :init (when (executable-find "python3")
+              (setq lsp-pyright-python-executable-cmd "python3")))
 
 
 #+end_src
@@ -407,6 +418,12 @@ changed to nerd icons
     :mode "\\.pdf\\'"
 
     ) 
+#+end_src
+** Java
+#+begin_src emacs-lisp :tangle ../.emacs.d/init.el
+  (use-package lsp-java :mode "\\.java\\'"
+:hook(java-mode . lsp-deferred) )
+(use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
 #+end_src
 ** Latex 
 #+begin_src emacs-lisp :tangle ../.emacs.d/init.el

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+nitrogen --restore &
+picom -b --experimental-backends
+bash ~/.config/conky/startup &
+nm-applet &
+blueman-applet &
+flameshot &
+dunst &
+lxsession &
+polybar main &
